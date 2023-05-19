@@ -29,9 +29,6 @@ public class ShoppingCart {
   @Column(name = "updated_at", nullable = false)
   private Date updatedAt;
 
-  @OneToMany(mappedBy = "shopping_cart", cascade = CascadeType.ALL)
-  private List<ShoppingCartItem> shoppingCartItems;
-
   @OneToOne
   @JoinColumn(name = "userId", unique = true)
   private User user;
@@ -73,14 +70,6 @@ public class ShoppingCart {
 
   public void setUpdatedAt(Date updatedAt) {
     this.updatedAt = updatedAt;
-  }
-
-  public List<ShoppingCartItem> getShoppingCartItems() {
-    return shoppingCartItems;
-  }
-
-  public void setShoppingCartItems(List<ShoppingCartItem> shoppingCartItems) {
-    this.shoppingCartItems = shoppingCartItems;
   }
 
   public User getUser() {

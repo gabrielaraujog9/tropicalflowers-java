@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -21,9 +22,7 @@ public class Order {
   private String id;
   @Column(name = "status", columnDefinition = "integer default 0")
   private int status;
-  @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
-  private List<ShoppingCartItem> items;
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "userId", unique = true)
   private User user;
   public Order() {
@@ -39,12 +38,6 @@ public class Order {
   }
   public void setStatus(int status) {
     this.status = status;
-  }
-  public List<ShoppingCartItem> getItems() {
-    return items;
-  }
-  public void setItems(List<ShoppingCartItem> items) {
-    this.items = items;
   }
   public User getUser() {
     return user;

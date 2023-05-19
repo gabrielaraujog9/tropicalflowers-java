@@ -30,8 +30,7 @@ public class Product {
   private Date createdAt;
   @Column(name = "updated_at", nullable = false)
   private Date updatedAt;
-  @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
-  private List<ShoppingCartItem> ShoppingCartItems;
+
 
   public Product() {
   }
@@ -112,11 +111,5 @@ public class Product {
     this.updatedAt = updatedAt;
   }
 
-  public List<ShoppingCartItem> getShoppingCartItems() {
-    return ShoppingCartItems;
-  }
 
-  public void setShoppingCartItems(List<ShoppingCartItem> shoppingCartItems) {
-    ShoppingCartItems = shoppingCartItems;
-  }
 }

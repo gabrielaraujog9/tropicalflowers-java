@@ -35,14 +35,16 @@ public class User {
   private String password;
   @Column(name = "cpf", nullable = false)
   private String cpf;
-  @OneToOne(mappedBy = "users", cascade = CascadeType.ALL)
-  private ShoppingCart cart;
-  @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-  private List<Order> orders;
+ 
 
   public User() {
   }
-
+  public User(String name, String email, String password, String cpf) {
+    this.name = name;
+    this.email = email;
+    this.password = password;
+    this.cpf = cpf;
+  }
   public String getId() {
     return id;
   }

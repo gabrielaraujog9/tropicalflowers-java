@@ -10,14 +10,10 @@ import com.tropical.flowers.tropicalflowers.repositories.UserRepository;
 public class UserService {
   
   @Autowired
-  private final UserRepository userRepository;
-
-  public UserService(UserRepository userRepository) {
-      this.userRepository = userRepository;
-  }
+  private UserRepository userRepository;
   
   public User createUser(User user) {
-    // Realize validações ou lógica de negócio antes de criar o usuário
+      
     return userRepository.save(user);
   }
 }
