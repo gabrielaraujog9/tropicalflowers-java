@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import com.tropical.flowers.tropicalflowers.models.User;
 import com.tropical.flowers.tropicalflowers.repositories.UserRepository;
@@ -12,6 +13,7 @@ import com.tropical.flowers.tropicalflowers.repositories.UserRepository;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+@Service
 public class CustomUserDetailsService implements UserDetailsService{
 
   @Autowired
@@ -26,12 +28,12 @@ public class CustomUserDetailsService implements UserDetailsService{
   public UserDetails loadUserById(String id) {
     User user = getUser(() -> userRepository.findById(id));
     return UserPrincipal.create(user);
-}
+  }
 
-private User getUser(Supplier<Optional<User>> supplier) {
-    return supplier.get().orElseThrow(() ->
-            new UsernameNotFoundException("Usuário não cadastrado")
-    );
-}
+  private User getUser(Supplier<Optional<User>> supplier) {
+      return supplier.get().orElseThrow(() ->
+              new UsernameNotFoundException("Usuário não cadastrado")
+      );
+  }
 
 }
