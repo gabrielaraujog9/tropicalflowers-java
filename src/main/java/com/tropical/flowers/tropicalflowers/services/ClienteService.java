@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.tropical.flowers.tropicalflowers.dto.AtualizarSenhaRequest;
 import com.tropical.flowers.tropicalflowers.models.Cliente;
 
 @Service
@@ -13,4 +14,11 @@ public interface ClienteService {
   List<Cliente> buscarTodos();
 
   String login(String email, String password) throws Exception;
+
+  Cliente pegarPorId(String id) throws Exception;
+
+  void atualizarSenha(AtualizarSenhaRequest request) throws Exception;
+
+  void deletarPorId(String id);
+
 }

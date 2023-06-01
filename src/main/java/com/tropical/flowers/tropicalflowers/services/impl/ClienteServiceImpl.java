@@ -1,11 +1,13 @@
 package com.tropical.flowers.tropicalflowers.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.tropical.flowers.tropicalflowers.dto.AtualizarSenhaRequest;
 import com.tropical.flowers.tropicalflowers.models.Cliente;
 import com.tropical.flowers.tropicalflowers.repositories.ClienteRepository;
 import com.tropical.flowers.tropicalflowers.repositories.UserRepository;
@@ -52,6 +54,39 @@ public class ClienteServiceImpl implements ClienteService {
   public String login(String email, String password) throws Exception {
     String token = loginService.login(email, password);
     return token;
+  }
+
+
+  @Override
+  public Cliente pegarPorId(String id) throws Exception {
+    Optional<Cliente> cliente = clienteRepository.findById(id);
+    if(!cliente.isPresent()){
+      throw new Exception("Não existe usuário com este ID");
+    }
+    return cliente.get();
+  }
+
+  @Override
+  public void atualizarSenha(AtualizarSenhaRequest request) throws Exception {
+    Optional<Cliente> cliente = clienteRepository.findByEmail(request.getEmail());
+    if(!cliente.isPresent()){
+      throw new Exception("Usuário não cadastrado!");
+    }
+    String newPassword = passwordEncoder.encode(request.getPassword());
+    
+    cliente.get().setPassword(newPassword);
+
+    clienteRepository.save(cliente.get());
+  }
+
+
+  @Override
+  public void deletarPorId(String id) {
+    try{
+      clienteRepository.deleteById(id);
+    }catch(Exception e){
+      throw e;
+    }
   }
 
 }

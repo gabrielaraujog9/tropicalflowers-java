@@ -3,9 +3,7 @@ package com.tropical.flowers.tropicalflowers.dto;
 import lombok.Data;
 
 @Data
-public class CadrastroResquest {
-  private String name;
-  private String email;
+public class AtualizarSenhaRequest {
   private String password;
-  private String cpf;
+  private String email;
 }
