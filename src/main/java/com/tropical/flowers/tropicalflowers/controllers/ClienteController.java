@@ -28,8 +28,13 @@ public class ClienteController {
   public ResponseEntity<List<Cliente>> buscarTodos() throws Exception {
     return ResponseEntity.ok().body(clienteService.buscarTodos());
   }
+  @GetMapping("/cliente/{id}")
+  public ResponseEntity<Cliente> pegarPorId(@PathVariable("id") String id) throws Exception{
+    return ResponseEntity.ok().body(clienteService.pegarPorId(id));
+  }
+
   @PostMapping("/cliente")
-  public ResponseEntity<ApiResponse> cadastrar(@RequestBody CadrastroRequest request) throws Exception {
+  public ResponseEntity<ApiResponse> cadastrar(@RequestBody CadrastroRequest request) throws Exception   {
     try{
       clienteService.cadastrar(request.getName(), request.getEmail(), request.getPassword(), request.getCpf());
       return ResponseEntity.created(null).body(new ApiResponse("Usuário criado com sucesso!"));
@@ -48,11 +53,7 @@ public class ClienteController {
     }
   }
   
-  @GetMapping("/cliente/{id}")
-  public ResponseEntity<Cliente> pegarPorId(@PathVariable("id") String id) throws Exception{
-    return ResponseEntity.ok().body(clienteService.pegarPorId(id));
-  }
-
+ 
   @PutMapping("/cliente")
   public ResponseEntity<ApiResponse> atualizarSenha(@RequestBody AtualizarSenhaRequest request){
     try{

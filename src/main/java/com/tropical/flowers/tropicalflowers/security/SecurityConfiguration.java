@@ -58,8 +58,13 @@ public class SecurityConfiguration {
       .sessionManagement(management -> management
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
           .authorizeHttpRequests(authorize -> authorize
+            .requestMatchers(HttpMethod.GET, "/cliente", "/administrador", "/administrador/**").hasRole("ADMINISTRADOR")
+            .requestMatchers(HttpMethod.GET, "/cliente/**").authenticated()
             .requestMatchers(HttpMethod.POST, "/cliente", "/cliente/login", "/administrador/login").permitAll()
-            .requestMatchers(HttpMethod.GET, "/user").hasRole("ADMINISTRADOR")
+            .requestMatchers(HttpMethod.POST, "/administrador").hasRole("ADMINISTRADOR")
+            .requestMatchers(HttpMethod.PUT, "/cliente", "/administrador").permitAll()
+            .requestMatchers(HttpMethod.DELETE, "/cliente/**").hasRole("CLIENTE")
+            .requestMatchers(HttpMethod.DELETE, "/administrador/**").hasRole("ADMINISTRADOR")
             .requestMatchers(HttpMethod.GET, "/product").permitAll()
             .requestMatchers(HttpMethod.GET, "/product/**").authenticated()
             .requestMatchers(HttpMethod.POST, "/product").hasRole("ADMINISTRADOR")

@@ -29,6 +29,11 @@ public class AdministradorController {
   public ResponseEntity<List<Administrador>> buscarTodos() throws Exception {
     return ResponseEntity.ok().body(administradorService.buscarTodos());
   }
+
+ @GetMapping("/administrador/{id}")
+  public ResponseEntity<Administrador> pegarPorId(@PathVariable("id") String id) throws Exception{
+    return ResponseEntity.ok().body(administradorService.pegarPorId(id));
+  }
   
   @PostMapping("/administrador")
   public ResponseEntity<ApiResponse> cadastrar(@RequestBody CadrastroRequest request) throws Exception {
@@ -48,11 +53,6 @@ public class AdministradorController {
     }catch(Exception e){
       return ResponseEntity.internalServerError().body(new ApiResponse(e.getMessage()));
     }
-  }
-  
-  @GetMapping("/administrador/{id}")
-  public ResponseEntity<Administrador> pegarPorId(@PathVariable("id") String id) throws Exception{
-    return ResponseEntity.ok().body(administradorService.pegarPorId(id));
   }
 
   @PutMapping("/administrador")
