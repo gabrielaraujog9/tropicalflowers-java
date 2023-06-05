@@ -53,25 +53,37 @@ public class SecurityConfiguration {
   @Bean
   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-      .cors(withDefaults()).csrf(csrf -> csrf.disable())
+      .cors(cors -> cors.disable()).csrf(csrf -> csrf.disable())
       .exceptionHandling(withDefaults())
       .sessionManagement(management -> management
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
           .authorizeHttpRequests(authorize -> authorize
+            .requestMatchers(HttpMethod.GET, "/product", "/product/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/cliente", "/administrador", "/administrador/**").hasRole("ADMINISTRADOR")
             .requestMatchers(HttpMethod.GET, "/cliente/**").authenticated()
+            
             .requestMatchers(HttpMethod.POST, "/cliente", "/cliente/login", "/administrador/login").permitAll()
-            .requestMatchers(HttpMethod.POST, "/administrador").hasRole("ADMINISTRADOR")
+            .requestMatchers(HttpMethod.POST, "/administrador", "/product").hasRole("ADMINISTRADOR")
+            
             .requestMatchers(HttpMethod.PUT, "/cliente", "/administrador").permitAll()
+            .requestMatchers(HttpMethod.PUT, "/product/**").hasRole("ADMINISTRADOR")
+
             .requestMatchers(HttpMethod.DELETE, "/cliente/**").hasRole("CLIENTE")
-            .requestMatchers(HttpMethod.DELETE, "/administrador/**").hasRole("ADMINISTRADOR")
-            .requestMatchers(HttpMethod.GET, "/product").permitAll()
-            .requestMatchers(HttpMethod.GET, "/product/**").authenticated()
-            .requestMatchers(HttpMethod.POST, "/product").hasRole("ADMINISTRADOR")
-            .requestMatchers(HttpMethod.DELETE, "/product/**").hasAnyRole("ADMINISTRADOR")
+            .requestMatchers(HttpMethod.DELETE, "/administrador/**", "/product/**").hasRole("ADMINISTRADOR")
+
+            .requestMatchers(AUTH_WHITELIST).permitAll()
+
             .anyRequest().denyAll()
           ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
       
     return http.build();
   }
+
+  private static final String[] AUTH_WHITELIST = {
+    "/api/v1/auth/**",
+    "/v3/api-docs/**",
+    "/v3/api-docs.yaml",
+    "/swagger-ui/**",
+    "/swagger-ui.html"
+  };
 }

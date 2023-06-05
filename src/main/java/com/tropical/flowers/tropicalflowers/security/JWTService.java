@@ -11,11 +11,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-// import io.jsonwebtoken.Claims;
-// import io.jsonwebtoken.Jwts;
-// import io.jsonwebtoken.Jws;
-// import io.jsonwebtoken.SignatureAlgorithm;
-
 @Component
 public class JWTService {
   
@@ -30,12 +25,6 @@ public class JWTService {
       Date dataAtual = new Date();
       int tempoExpiracao = 86400000; // 1 dia em milisegundos
       Date dataExpiracao = new Date(new Date().getTime() + tempoExpiracao);
-      // String token = Jwts.builder()
-      // .setSubject(userPrincipal.getId())
-      // .setIssuedAt(dataAtual)
-      // .setExpiration(dataExpiracao)
-      // .signWith(SignatureAlgorithm.HS256, chavePrivadaJWT)
-      // .compact();
       Algorithm algorithm = Algorithm.HMAC256(chavePrivadaJWT);
       String token = JWT.create()
                       .withSubject(userPrincipal.getId())

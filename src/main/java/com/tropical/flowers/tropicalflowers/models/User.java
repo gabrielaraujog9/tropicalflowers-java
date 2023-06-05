@@ -2,6 +2,8 @@ package com.tropical.flowers.tropicalflowers.models;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,6 +33,7 @@ public abstract class User {
   @Column(name = "updated_at", nullable = false)
   private Date updatedAt;
   @Column(name = "password", nullable = false)
+  @JsonIgnore
   private String password;
   @Column(name = "cpf", nullable = false)
   private String cpf;

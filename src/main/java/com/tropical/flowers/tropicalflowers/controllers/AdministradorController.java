@@ -1,5 +1,6 @@
 package com.tropical.flowers.tropicalflowers.controllers;
 
+import com.tropical.flowers.tropicalflowers.dto.AdministradorResponse;
 import com.tropical.flowers.tropicalflowers.dto.ApiResponse;
 import com.tropical.flowers.tropicalflowers.dto.AtualizarSenhaRequest;
 import com.tropical.flowers.tropicalflowers.dto.CadrastroRequest;
@@ -26,13 +27,17 @@ public class AdministradorController {
   private AdministradorService administradorService;
 
   @GetMapping("/administrador")
-  public ResponseEntity<List<Administrador>> buscarTodos() throws Exception {
+  public ResponseEntity<List<Administrador>> buscarTodos(){
     return ResponseEntity.ok().body(administradorService.buscarTodos());
   }
 
  @GetMapping("/administrador/{id}")
-  public ResponseEntity<Administrador> pegarPorId(@PathVariable("id") String id) throws Exception{
-    return ResponseEntity.ok().body(administradorService.pegarPorId(id));
+  public ResponseEntity<AdministradorResponse> pegarPorId(@PathVariable("id") String id) throws Exception{
+    try{
+      return ResponseEntity.ok().body(new AdministradorResponse(administradorService.pegarPorId(id)));
+    }catch(Exception e){
+      return ResponseEntity.internalServerError().body(new AdministradorResponse(e.getMessage()));
+    }
   }
   
   @PostMapping("/administrador")
@@ -49,6 +54,7 @@ public class AdministradorController {
   public ResponseEntity<ApiResponse> login(@RequestBody LoginRequest request) throws Exception {
     try{
       String token = administradorService.login(request.getEmail(), request.getPassword());
+      
       return ResponseEntity.ok().body(new ApiResponse("Autenticação feita com sucesso!", token));
     }catch(Exception e){
       return ResponseEntity.internalServerError().body(new ApiResponse(e.getMessage()));
