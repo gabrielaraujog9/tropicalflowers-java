@@ -1,0 +1,45 @@
+.body{
+    background-color: #F2E8DC;
+}
+
+.login{
+    font-size: 20px;
+    margin-left: 50px;
+}
+
+.custom-input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #F24464;
+    padding: 8px;
+}
+
+.btn-outline-criarconta{
+    border: solid 3px #9ABF80 !important;
+    color: #3E5F4E !important;
+}
+
+.btn-outline-criarconta:hover{
+    background-color: #9ABF80 !important;
+}
+
+.btn-entrar:hover{
+    background-color: #FF9D9E !important;
+}
+
+.link-esqueciasenha:hover{
+    color: #9ABF80 !important;
+}
+
+.input-text:focus{
+    border-color: #FF9D9E !important;
+}
+
+/* cores{
+    #F24464;
+    #F28599;
+    #9ABF80;
+    #F2E8DC;
+    #F24535;
+    #3E5F4E;
+} */
