@@ -1,0 +1,57 @@
+body {
+    background-image: url(../criarconta.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+  }
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Cor de fundo com transparência */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Sombra */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+.popup {
+    padding: 20px;
+    background-color: #F2E8DC !important;
+    border-radius: 5px;
+  }
+
+.login{
+    font-size: 18px;
+}
+
+.custom-input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #F24464;
+}
+
+.btn-outline-criarconta{
+    border: solid 3px #9ABF80 !important;
+    color: #3E5F4E !important;
+}
+
+.btn-outline-criarconta:hover{
+    background-color: #9ABF80 !important;
+}
+
+.btn-entrar:hover{
+    background-color: #FF9D9E !important;
+}
+
+.link-esqueciasenha:hover{
+    color: #9ABF80 !important;
+}
+
+.input-text:focus{
+    border-color: #FF9D9E !important;
+}
