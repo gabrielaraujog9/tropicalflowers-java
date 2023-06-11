@@ -13,8 +13,6 @@ public interface ClienteService {
 
   List<Cliente> buscarTodos();
 
-  String login(String email, String password) throws Exception;
-
   Cliente pegarPorId(String id) throws Exception;
 
   void atualizarSenha(AtualizarSenhaRequest request) throws Exception;

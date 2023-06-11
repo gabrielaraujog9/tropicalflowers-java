@@ -7,17 +7,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
     
-<body class="body">
+<body class="body" onload="verificarLogin()">
 	<div class="d-flex flex-column flex-md-row col vh-100">
-        <div class="col-12 col-md-5 overflow-hidden">
-            <img src="../assets/img/inicio.jpg" alt="tropical-flowers" class="w-100"> 
+        <div class="col-12 col-md-5">
+            <img src="../assets/img/inicio.jpg" alt="tropical-flowers" class="w-100 h-100 object-fit-fill"> 
         </div>
         <div class="d-flex flex-column align-items-center col-12 col-md-7 vh-100">
             <div class="mt-5">
                 <h1 style="color: #3E5F4E;" >Entre na sua conta</h1>
             </div>
             <div class="mt-auto mb-auto w-100">
-                <form method="post" class="login d-flex flex-column gap-5">
+                <form method="post" class="login d-flex flex-column gap-5" id="form-login">
                     <div class="d-flex justify-content-center gap-5 align-items-center w-100">
                         <label for="username" style="color: #F24464;">E-mail</label> 
                         <input type="text" id="username" name="username" autofocus="autofocus" class="custom-input w-50 input-text"/>
@@ -31,8 +31,8 @@
                                 <a href="#" class="text-decoration-none link-esqueciasenha" style="color: #3E5F4E;">Esqueci a senha</a>
                             </div>
                             <div class="w-100 d-flex gap-5">
-                                <input type="submit" value="Criar conta" class="w-50 btn btn-outline-criarconta"/>
-                                <input type="submit" value="Entrar" class="w-50 btn btn-entrar" role="button" style="background: #F28599; color: #F2E8DC;"/>
+                                <a href="./criarconta.html" class="w-50 btn btn-outline-criarconta">Criar conta</a>
+                                <input type="button" id="btnEntrar" onclick="efetuarLogin()" value="Entrar" class="w-50 btn btn-entrar" role="button" style="background: #F28599; color: #F2E8DC;"/>
                             </div>
                         </div>
                     </div>
@@ -41,9 +41,7 @@
             </div>
         </div>
     </div>
-    
-    
-	
-	<div th:replace="~{fragments :: footer}"></div>
+    <script src="../js/login.js"></script>
+  
 </body>
 </html>

@@ -14,8 +14,6 @@ public interface AdministradorService {
 
   List<Administrador> buscarTodos();
 
-  String login(String email, String password);
-
   Administrador pegarPorId(String id) throws Exception;
 
   void atualizarSenha(AtualizarSenhaRequest request) throws Exception;

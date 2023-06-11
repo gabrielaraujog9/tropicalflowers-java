@@ -3,13 +3,11 @@ package com.tropical.flowers.tropicalflowers.controllers;
 import com.tropical.flowers.tropicalflowers.dto.ApiResponse;
 import com.tropical.flowers.tropicalflowers.dto.AtualizarSenhaRequest;
 import com.tropical.flowers.tropicalflowers.dto.CadrastroRequest;
-import com.tropical.flowers.tropicalflowers.dto.LoginRequest;
 import com.tropical.flowers.tropicalflowers.models.Cliente;
 import com.tropical.flowers.tropicalflowers.services.ClienteService;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,15 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class ClienteController {
   @Autowired
   private ClienteService clienteService;
 
-  @GetMapping("/cliente")
-  public ResponseEntity<List<Cliente>> buscarTodos() throws Exception {
-    return ResponseEntity.ok().body(clienteService.buscarTodos());
-  }
   @GetMapping("/cliente/{id}")
   public ResponseEntity<Cliente> pegarPorId(@PathVariable("id") String id) throws Exception{
     return ResponseEntity.ok().body(clienteService.pegarPorId(id));
@@ -41,18 +36,7 @@ public class ClienteController {
     }catch(Exception e){
       return ResponseEntity.internalServerError().body(new ApiResponse(e.getMessage()));
     }
-  }
-
-  @PostMapping("/cliente/login")
-  public ResponseEntity<ApiResponse> login(@RequestBody LoginRequest request) throws Exception {
-    try{
-      String token = clienteService.login(request.getEmail(), request.getPassword());
-      return ResponseEntity.ok().body(new ApiResponse("Autenticação feita com sucesso!", token));
-    }catch(Exception e){
-      return ResponseEntity.internalServerError().body(new ApiResponse(e.getMessage()));
-    }
-  }
-  
+  } 
  
   @PutMapping("/cliente")
   public ResponseEntity<ApiResponse> atualizarSenha(@RequestBody AtualizarSenhaRequest request){

@@ -11,7 +11,6 @@ import com.tropical.flowers.tropicalflowers.dto.AtualizarSenhaRequest;
 import com.tropical.flowers.tropicalflowers.models.Administrador;
 import com.tropical.flowers.tropicalflowers.repositories.AdministradorRepository;
 import com.tropical.flowers.tropicalflowers.repositories.UserRepository;
-import com.tropical.flowers.tropicalflowers.security.LoginService;
 import com.tropical.flowers.tropicalflowers.services.AdministradorService;
 
 @Service
@@ -25,8 +24,7 @@ public class AdministradorServiceImpl implements AdministradorService {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-  @Autowired
-  private LoginService loginService;
+
 
   
   @Override
@@ -46,12 +44,6 @@ public class AdministradorServiceImpl implements AdministradorService {
   @Override
   public List<Administrador> buscarTodos() {
     return administradorRepository.findAll();
-  }
-
-  @Override
-  public String login(String email, String password) {
-    String token = loginService.login(email, password);
-    return token;
   }
 
   @Override

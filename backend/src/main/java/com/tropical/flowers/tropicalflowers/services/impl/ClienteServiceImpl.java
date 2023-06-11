@@ -11,7 +11,6 @@ import com.tropical.flowers.tropicalflowers.dto.AtualizarSenhaRequest;
 import com.tropical.flowers.tropicalflowers.models.Cliente;
 import com.tropical.flowers.tropicalflowers.repositories.ClienteRepository;
 import com.tropical.flowers.tropicalflowers.repositories.UserRepository;
-import com.tropical.flowers.tropicalflowers.security.LoginService;
 import com.tropical.flowers.tropicalflowers.services.ClienteService;
 
 @Service
@@ -24,9 +23,6 @@ public class ClienteServiceImpl implements ClienteService {
 
   @Autowired
   private PasswordEncoder passwordEncoder;
-
-  @Autowired
-  private LoginService loginService;
 
   
   @Override
@@ -48,14 +44,6 @@ public class ClienteServiceImpl implements ClienteService {
   public List<Cliente> buscarTodos() {
     return clienteRepository.findAll();
   }
-
-
-  @Override
-  public String login(String email, String password) throws Exception {
-    String token = loginService.login(email, password);
-    return token;
-  }
-
 
   @Override
   public Cliente pegarPorId(String id) throws Exception {
@@ -88,5 +76,4 @@ public class ClienteServiceImpl implements ClienteService {
       throw e;
     }
   }
-
 }

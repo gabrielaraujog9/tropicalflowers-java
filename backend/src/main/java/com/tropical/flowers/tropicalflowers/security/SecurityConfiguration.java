@@ -15,12 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
-
-import java.util.Arrays;
 
 
 @Configuration
@@ -67,16 +63,16 @@ public class SecurityConfiguration {
   @Bean
   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-      .cors(cors -> cors.disable()).csrf(csrf -> csrf.disable())
+      .cors(withDefaults()).csrf(csrf -> csrf.disable())
       .exceptionHandling(withDefaults())
       .sessionManagement(management -> management
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
           .authorizeHttpRequests(authorize -> authorize
             .requestMatchers(HttpMethod.GET, "/product", "/product/**").permitAll()
-            .requestMatchers(HttpMethod.GET, "/cliente", "/administrador", "/administrador/**").hasRole("ADMINISTRADOR")
-            .requestMatchers(HttpMethod.GET, "/cliente/**").authenticated()
+            .requestMatchers(HttpMethod.GET, "/user", "/administrador/**").hasRole("ADMINISTRADOR")
+            .requestMatchers(HttpMethod.GET, "/cliente/**", "/user/token").authenticated()
             
-            .requestMatchers(HttpMethod.POST, "/cliente", "/cliente/login", "/administrador/login").permitAll()
+            .requestMatchers(HttpMethod.POST, "/cliente", "/user/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/administrador", "/product").hasRole("ADMINISTRADOR")
             
             .requestMatchers(HttpMethod.PUT, "/cliente", "/administrador").permitAll()

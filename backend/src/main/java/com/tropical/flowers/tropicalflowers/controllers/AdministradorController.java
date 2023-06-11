@@ -4,11 +4,7 @@ import com.tropical.flowers.tropicalflowers.dto.AdministradorResponse;
 import com.tropical.flowers.tropicalflowers.dto.ApiResponse;
 import com.tropical.flowers.tropicalflowers.dto.AtualizarSenhaRequest;
 import com.tropical.flowers.tropicalflowers.dto.CadrastroRequest;
-import com.tropical.flowers.tropicalflowers.dto.LoginRequest;
-import com.tropical.flowers.tropicalflowers.models.Administrador;
 import com.tropical.flowers.tropicalflowers.services.AdministradorService;
-
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,11 +22,6 @@ public class AdministradorController {
   @Autowired
   private AdministradorService administradorService;
 
-  @GetMapping("/administrador")
-  public ResponseEntity<List<Administrador>> buscarTodos(){
-    return ResponseEntity.ok().body(administradorService.buscarTodos());
-  }
-
  @GetMapping("/administrador/{id}")
   public ResponseEntity<AdministradorResponse> pegarPorId(@PathVariable("id") String id) throws Exception{
     try{
@@ -45,17 +36,6 @@ public class AdministradorController {
     try{
       administradorService.cadastrar(request.getName(), request.getEmail(), request.getPassword(), request.getCpf());
       return ResponseEntity.created(null).body(new ApiResponse("Usuário criado com sucesso!"));
-    }catch(Exception e){
-      return ResponseEntity.internalServerError().body(new ApiResponse(e.getMessage()));
-    }
-  }
-
-  @PostMapping("/administrador/login")
-  public ResponseEntity<ApiResponse> login(@RequestBody LoginRequest request) throws Exception {
-    try{
-      String token = administradorService.login(request.getEmail(), request.getPassword());
-      
-      return ResponseEntity.ok().body(new ApiResponse("Autenticação feita com sucesso!", token));
     }catch(Exception e){
       return ResponseEntity.internalServerError().body(new ApiResponse(e.getMessage()));
     }
