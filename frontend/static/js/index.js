@@ -40,8 +40,7 @@ function logout(){
   window.location.reload();
 }
 
-async function listagemDeProdutosPorData(){
-  debugger
+async function listagemDeProdutosPorPreco(){
   const produtos = await fetch("http://localhost:8080/product",{
       method: "GET",
       headers: {
@@ -50,20 +49,26 @@ async function listagemDeProdutosPorData(){
     }
   ).then((response) => response.json())
 
-  console.log(produtos)
+  const produtosMaisBaratos = produtos.sort((x, y) => {
+    return x.price - y.price
+  })
 
-  const containerOfertas = document.getElementById("container-melhores-ofertas")
+  const cardOfertas = document.getElementsByClassName("card-melhores-ofertas")
+  const titleOfertas = document.getElementsByClassName("nome-melhores-ofertas")
+  const priceOfertas = document.getElementsByClassName("price-melhores-ofertas")
 
-  const colOfertas = document.getElementById("col-melhores-ofertas")
-
-  const cardOfertas = document.getElementById("card-melhores-ofertas")
-
-  cardOfertas.style.backgroundImage = `url(${produtos[0].image})`;
-
-  for(let produto of produtos){
-    
+  for(let i = 0; i < 3; i++){
+    cardOfertas[i].setAttribute("id", produtosMaisBaratos[i].id)
+    cardOfertas[i].setAttribute("onclick", "abrirProduto(this.getAttribute('id'))")
+    cardOfertas[i].style.backgroundImage = `url(${produtosMaisBaratos[i].image})`;
+    cardOfertas[i].style.cursor = "pointer"
+    titleOfertas[i].innerText = produtosMaisBaratos[i].name
+    priceOfertas[i].innerText = `R$ ${produtosMaisBaratos[i].price}`
   }
-  
-
 }
-listagemDeProdutosPorData()
+
+async function abrirProduto(id){
+  localStorage.removeItem("produtoId")
+  localStorage.setItem("produtoId", id)
+  window.open("http://localhost:5500/static/pages/produto.html", "_self")
+}
