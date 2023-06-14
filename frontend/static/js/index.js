@@ -39,3 +39,31 @@ function logout(){
   localStorage.removeItem("token");
   window.location.reload();
 }
+
+async function listagemDeProdutosPorData(){
+  debugger
+  const produtos = await fetch("http://localhost:8080/product",{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+  ).then((response) => response.json())
+
+  console.log(produtos)
+
+  const containerOfertas = document.getElementById("container-melhores-ofertas")
+
+  const colOfertas = document.getElementById("col-melhores-ofertas")
+
+  const cardOfertas = document.getElementById("card-melhores-ofertas")
+
+  cardOfertas.style.backgroundImage = `url(${produtos[0].image})`;
+
+  for(let produto of produtos){
+    
+  }
+  
+
+}
+listagemDeProdutosPorData()

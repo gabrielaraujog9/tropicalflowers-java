@@ -53,5 +53,13 @@ public class UserServiceImpl implements UserService {
     return userRepository.findAll();
   }
 
+  @Override
+  public void deletarPorId(String id) {
+    try{
+      userRepository.deleteById(id);
+    }catch(Exception e){
+      throw e;
+    }
+  }
   
 }

@@ -55,10 +55,15 @@ async function renderTable(urlRequest){
 
         const keys = Object.keys(dados[0])
         keys.unshift("#")
+        keys.push("Excluir")
+        keys.push("Atualizar")
         const linhaHeaderTable = document.getElementById("table-linha-secao");
         const tableBody = document.getElementById("table-body");
 
         for(let key of keys){
+          if(key == "image"){
+            continue
+          }
           linhaHeaderTable.appendChild(createTH(key.toUpperCase()))
         }
         debugger
@@ -79,22 +84,41 @@ function createTR(index, value){
     let td;
     debugger
     if(key == "id"){
-      td = createTD(value[key].split("-")[0])
+      td = createTD(value[key])
     }
     else if(key == "createdAt" || key == "updatedAt"){
       td = createTD(value[key].split("T")[0])
+    }
+    else if(key == "image"){
+      continue
+    }
+    else if(key == "price"){
+      td = createTD("R$ " + value[key])
     }
     else{
       td = createTD(value[key])
     }
     tr.appendChild(td)
   }
+  const iconDelete = document.createElement("i")
+  iconDelete.classList.add("bi")
+  iconDelete.classList.add('bi-trash')
+  iconDelete.style.cursor = "pointer"
+  iconDelete.setAttribute("onclick", "excluir(this)")
+  tr.appendChild(createTD(iconDelete))
+
+  const iconEdit = document.createElement("i")
+  iconEdit.classList.add("bi")
+  iconEdit.classList.add('bi-pencil-square')
+  iconEdit.style.cursor = "pointer"
+  iconEdit.setAttribute("onclick", "atualizar(this)")
+  tr.appendChild(createTD(iconEdit))
 
   return tr
 }
 function createTD(value){
   const td = document.createElement("td");
-  td.innerText = value
+  td.append(value)
   td.style.whiteSpace = "nowrap"
   return td
 }
@@ -133,9 +157,7 @@ async function onLoadUser(){
     const username = document.getElementById("username")
     username.innerText = fetchLogado.name
   }
-  else{
-    window.open("http://localhost:5500/static/pages/login.html")
-  }
+  
 }
 
 function loading(hidden){
@@ -199,7 +221,7 @@ async function cadastrarUsuario(){
   loading(false)
 }
 
-function cadastrarProduto(){
+async function cadastrarProduto(){
   loading(true)
   const token = localStorage.getItem("token")
   const nameInput = document.getElementById("name-produto")
@@ -209,9 +231,8 @@ function cadastrarProduto(){
   const imgInput = document.getElementById("formFile").files[0]
   var reader = new FileReader();
   reader.onloadend = async function () {
-    var base64 = reader.result.substring(
-      reader.result.lastIndexOf(",") + 1
-    );
+    debugger
+    var base64 = reader.result
     const bodyRequest = {
       name: nameInput.value,
       description: descriptionInput.value,
@@ -236,10 +257,39 @@ function cadastrarProduto(){
     priceInput.value = ""
     stockInput.value = ""
     imgInput = ""
-    await secaoRender()
-    loading(false)
-
+    
+    
   }
   reader.readAsDataURL(imgInput);
+  await secaoRender()
+  loading(false)
 }
-  
+async function excluir(element){
+  loading(true)
+  const id = element.parentElement.parentElement.getElementsByTagName("td")[0].innerText
+  const opcaoAtiva = document.querySelector(".active")
+  const opcaoAtual = opcaoAtiva.innerText
+  switch(opcaoAtual){
+    case "Usuários":
+      await fetchExcluir(`http://localhost:8080/user/${id}`)
+      break;
+    case "Produtos":
+      await fetchExcluir(`http://localhost:8080/product/${id}`)
+      break;
+  }
+  loading(false)
+}
+async function fetchExcluir(url){
+  const token = localStorage.getItem("token")
+  let fetchExcluir = await fetch(
+    url,{
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      }
+    }
+  ).then((response) => response.json())
+  alert(fetchExcluir.message)
+  await secaoRender()
+}

@@ -14,4 +14,6 @@ public interface UserService {
   User pegarPorToken(String token) throws Exception;
 
   List<User> buscarTodos();
+
+  void deletarPorId(String id);
 }

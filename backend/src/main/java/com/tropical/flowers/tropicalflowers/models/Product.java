@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -22,6 +23,8 @@ public class Product {
   private Double price;
   @Column(columnDefinition = "integer default 0")
   private int stock;
+  @Lob
+  @Column(name="image", length=2147483647)
   private String image;
   @Column(name = "created_at", nullable = false)
   private Date createdAt;

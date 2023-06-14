@@ -79,7 +79,7 @@ public class SecurityConfiguration {
             .requestMatchers(HttpMethod.PUT, "/product/**").hasRole("ADMINISTRADOR")
 
             .requestMatchers(HttpMethod.DELETE, "/cliente/**").hasRole("CLIENTE")
-            .requestMatchers(HttpMethod.DELETE, "/administrador/**", "/product/**").hasRole("ADMINISTRADOR")
+            .requestMatchers(HttpMethod.DELETE, "/administrador/**", "/product/**", "/user/**").hasRole("ADMINISTRADOR")
 
             .requestMatchers(AUTH_WHITELIST).permitAll()
 
