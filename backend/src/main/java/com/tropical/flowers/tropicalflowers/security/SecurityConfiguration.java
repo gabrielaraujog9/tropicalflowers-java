@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -50,16 +51,11 @@ public class SecurityConfiguration {
                .build();
   }
   
-  //  @Bean
-  //   CorsConfigurationSource corsConfigurationSource() {
-  //       CorsConfiguration configuration = new CorsConfiguration();
-  //       configuration.setAllowedOrigins(Arrays.asList("*"));
-  //       configuration.setAllowedMethods(Arrays.asList("GET","POST", "OPTIONS"));
-  //       UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-  //       source.registerCorsConfiguration("/**", configuration);
-  //       return source;
-  //  }
-
+  @Bean
+  WebClient webClient(WebClient.Builder builder) {
+      return builder.build();
+  }
+ 
   @Bean
   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
@@ -68,17 +64,19 @@ public class SecurityConfiguration {
       .sessionManagement(management -> management
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
           .authorizeHttpRequests(authorize -> authorize
-            .requestMatchers(HttpMethod.GET, "/product", "/product/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/product", "/product/**", "/api/calculo-frete/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/user", "/administrador/**").hasRole("ADMINISTRADOR")
             .requestMatchers(HttpMethod.GET, "/cliente/**", "/user/token").authenticated()
             
             .requestMatchers(HttpMethod.POST, "/cliente", "/user/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/administrador", "/product").hasRole("ADMINISTRADOR")
-            
+            .requestMatchers(HttpMethod.POST, "/item/add").hasRole("CLIENTE")
+
             .requestMatchers(HttpMethod.PUT, "/cliente", "/administrador").permitAll()
             .requestMatchers(HttpMethod.PUT, "/product/**").hasRole("ADMINISTRADOR")
+            .requestMatchers(HttpMethod.PUT, "/item/update/**").hasRole("CLIENTE")
 
-            .requestMatchers(HttpMethod.DELETE, "/cliente/**").hasRole("CLIENTE")
+            .requestMatchers(HttpMethod.DELETE, "/cliente/**", "/item/delete/**").hasRole("CLIENTE")
             .requestMatchers(HttpMethod.DELETE, "/administrador/**", "/product/**", "/user/**").hasRole("ADMINISTRADOR")
 
             .requestMatchers(AUTH_WHITELIST).permitAll()

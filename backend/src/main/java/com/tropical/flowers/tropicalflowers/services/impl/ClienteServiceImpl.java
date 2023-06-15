@@ -12,6 +12,7 @@ import com.tropical.flowers.tropicalflowers.models.Cliente;
 import com.tropical.flowers.tropicalflowers.repositories.ClienteRepository;
 import com.tropical.flowers.tropicalflowers.repositories.UserRepository;
 import com.tropical.flowers.tropicalflowers.services.ClienteService;
+import com.tropical.flowers.tropicalflowers.services.ShoppingCartService;
 
 @Service
 public class ClienteServiceImpl implements ClienteService {
@@ -23,6 +24,9 @@ public class ClienteServiceImpl implements ClienteService {
 
   @Autowired
   private PasswordEncoder passwordEncoder;
+
+  @Autowired
+  private ShoppingCartService shoppingCartService;
 
   
   @Override
@@ -36,7 +40,8 @@ public class ClienteServiceImpl implements ClienteService {
     cliente.setCpf(cpf);
     cliente.setPassword(passwordEncoder.encode(password));
     
-    clienteRepository.save(cliente);
+    Cliente clienteCriado = clienteRepository.save(cliente);
+    shoppingCartService.criar(clienteCriado.getId());
   }
 
 
