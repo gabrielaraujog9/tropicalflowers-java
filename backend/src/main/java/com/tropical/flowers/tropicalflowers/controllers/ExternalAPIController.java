@@ -10,14 +10,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tropical.flowers.tropicalflowers.services.ExternalAPIService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
+@Tag(name = "API Externa")
 public class ExternalAPIController {
   
   @Autowired
   private ExternalAPIService externalAPIService;
 
+  @Operation(summary = "Calcular frete")
   @GetMapping("/calculo-frete/{cep}")
   public ResponseEntity<String> calcular(@PathVariable String cep){
     try{

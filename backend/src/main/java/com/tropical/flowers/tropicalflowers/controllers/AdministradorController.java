@@ -6,6 +6,10 @@ import com.tropical.flowers.tropicalflowers.dto.AtualizarSenhaRequest;
 import com.tropical.flowers.tropicalflowers.dto.CadrastroRequest;
 import com.tropical.flowers.tropicalflowers.services.AdministradorService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,12 +23,15 @@ import org.springframework.http.*;
 
 @CrossOrigin(origins = "*")
 @RestController
+@Tag(name = "Administrador")
 public class AdministradorController {
 
   @Autowired
   private AdministradorService administradorService;
 
- @GetMapping("/administrador/{id}")
+  @Operation(summary = "Buscar por ID", description = "utilizado para buscar o administrador, é necessário autenticação para conseguir concluir a ação.")
+  @SecurityRequirement(name = "Bearer Authentication")
+  @GetMapping("/administrador/{id}")
   public ResponseEntity<AdministradorResponse> pegarPorId(@PathVariable("id") String id) throws Exception{
     try{
       return ResponseEntity.ok().body(new AdministradorResponse(administradorService.pegarPorId(id)));
@@ -32,7 +39,9 @@ public class AdministradorController {
       return ResponseEntity.internalServerError().body(new AdministradorResponse(e.getMessage()));
     }
   }
-  
+
+  @Operation(summary = "Criar adm", description = "utilizado para criar um administrador, é necessário autenticação para conseguir concluir a ação.")
+  @SecurityRequirement(name = "Bearer Authentication")
   @PostMapping("/administrador")
   public ResponseEntity<ApiResponse> cadastrar(@RequestBody CadrastroRequest request) throws Exception {
     try{
@@ -43,6 +52,7 @@ public class AdministradorController {
     }
   }
 
+  @Operation(summary = "Atualizar senha do administrador")
   @PutMapping("/administrador")
   public ResponseEntity<ApiResponse> atualizarSenha(@RequestBody AtualizarSenhaRequest request){
     try{
@@ -53,6 +63,8 @@ public class AdministradorController {
     }
   }
 
+  @Operation(summary = "Deletar por ID", description = "utilizado para deletar o administrador, é necessário autenticação para conseguir concluir a ação.")
+  @SecurityRequirement(name = "Bearer Authentication")
   @DeleteMapping("/administrador/{id}")
   public ResponseEntity<ApiResponse> deletarPorId(@PathVariable("id") String id) throws Exception{
     try{

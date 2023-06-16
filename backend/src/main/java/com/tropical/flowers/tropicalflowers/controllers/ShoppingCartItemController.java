@@ -18,9 +18,14 @@ import com.tropical.flowers.tropicalflowers.models.User;
 import com.tropical.flowers.tropicalflowers.services.ShoppingCartItemService;
 import com.tropical.flowers.tropicalflowers.services.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/item")
+@Tag(name = "Itens do Carrinho")
 public class ShoppingCartItemController {
   
   @Autowired
@@ -29,6 +34,8 @@ public class ShoppingCartItemController {
   @Autowired
   private UserService userService;
 
+  @Operation(summary = "Adicionar Produto aos items do carrinho")
+  @SecurityRequirement(name = "Bearer Authentication")
   @PostMapping("/add")
   public ResponseEntity<String> adicionar(@RequestHeader Map<String, String> headers, ItemRequest item){
     try{
@@ -42,6 +49,8 @@ public class ShoppingCartItemController {
     }
   }
 
+  @Operation(summary = "Deletar itens produto do carrinho")
+  @SecurityRequirement(name = "Bearer Authentication")
   @DeleteMapping("/delete/{id}")
   public ResponseEntity<String> deletar(@PathVariable String id){
     try{
@@ -53,6 +62,8 @@ public class ShoppingCartItemController {
     }
   }
 
+  @Operation(summary = "Atualizar quantidade de produto dos itens")
+  @SecurityRequirement(name = "Bearer Authentication")
   @PutMapping("/update/{id}")
   public ResponseEntity<String> atualizar(@PathVariable String id, ItemRequest item){
     try{

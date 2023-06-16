@@ -19,22 +19,31 @@ import com.tropical.flowers.tropicalflowers.dto.ProductMessageResponse;
 import com.tropical.flowers.tropicalflowers.models.Product;
 import com.tropical.flowers.tropicalflowers.services.ProductService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @CrossOrigin(origins = "*")
 @RestController
+@Tag(name = "Produto")
 public class ProductController {
   @Autowired
   ProductService productService;
 
+  @Operation(summary = "Listar produtos")
   @GetMapping("/product")
   public ResponseEntity<List<Product>> buscarTodos() {
     return ResponseEntity.ok().body(productService.buscarTodos());
   }
 
+  @Operation(summary = "Buscar por ID")
   @GetMapping("/product/{id}")
   public ResponseEntity<Product> pegarPorId(@PathVariable("id") String id) throws Exception{
     return ResponseEntity.ok().body(productService.pegarPorId(id));
   }
 
+  @Operation(summary = "Cadastrar Produto")
+  @SecurityRequirement(name = "Bearer Authentication")
   @PostMapping("/product")
   public ResponseEntity<CreateProductResponse> cadastrar(@RequestBody ProductDTO prodRequest){
     try{
@@ -45,6 +54,8 @@ public class ProductController {
     }
   }
 
+  @Operation(summary = "Atualizar Produto")
+  @SecurityRequirement(name = "Bearer Authentication")
   @PutMapping("/product/{id}")
   public ResponseEntity<ProductMessageResponse> atualizarPorId(@PathVariable("id") String id, @RequestBody ProductDTO prodRequest) throws Exception {
     try{
@@ -55,6 +66,8 @@ public class ProductController {
     }
   }
 
+  @Operation(summary = "Deletar por ID")
+  @SecurityRequirement(name = "Bearer Authentication")
   @DeleteMapping("/product/{id}")
   public ResponseEntity<ProductMessageResponse> deletarPorId(@PathVariable("id") String id) throws Exception {
     try{

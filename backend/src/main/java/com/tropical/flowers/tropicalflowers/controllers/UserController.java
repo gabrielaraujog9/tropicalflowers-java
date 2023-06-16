@@ -19,18 +19,25 @@ import com.tropical.flowers.tropicalflowers.dto.LoginRequest;
 import com.tropical.flowers.tropicalflowers.models.User;
 import com.tropical.flowers.tropicalflowers.services.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @CrossOrigin(origins = "*")
 @RestController
+@Tag(name = "Usuário")
 public class UserController {
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private UserService userService;
 
-
+  @Operation(summary = "Listar todos os usuários")
+  @SecurityRequirement(name = "Bearer Authentication")
   @GetMapping("/user")
   public ResponseEntity<List<User>> buscarTodos(){
     return ResponseEntity.ok().body(userService.buscarTodos());
   }
-
+  @Operation(summary = "Buscar usuário pelo token")
+  @SecurityRequirement(name = "Bearer Authentication")
   @GetMapping("/user/token")
   public ResponseEntity<User> pegarPorToken(@RequestHeader Map<String, String> headers) throws Exception{
     String token = headers.get("authorization").toString();
@@ -38,6 +45,7 @@ public class UserController {
     return ResponseEntity.ok().body(user);
   }
 
+  @Operation(summary = "Fazer login de usuário")
   @PostMapping("user/login")
   public ResponseEntity<ApiResponse> login(@RequestBody LoginRequest request) throws Exception {
     try{
@@ -49,6 +57,8 @@ public class UserController {
     }
   }
 
+  @Operation(summary = "Deletar usuário por ID")
+  @SecurityRequirement(name = "Bearer Authentication")
   @DeleteMapping("/user/{id}")
   public ResponseEntity<ApiResponse> deletarPorId(@PathVariable("id") String id) throws Exception{
     try{
